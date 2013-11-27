@@ -7,7 +7,7 @@ namespace ReportingWebForms
 {
     public class DbUtil
     {
-        public int GetOpenedEmailCount(int campaignId)
+        public int GetOpenedEmailCountByCampaignId(int campaignId)
         {
             using (var context = new Agilis_ReportingEntities())
             {
@@ -17,7 +17,7 @@ namespace ReportingWebForms
             }
         }
 
-        public int GetAllSentEmails(int campaignId)
+        public int GetAllSentEmailsByCampaignId(int campaignId)
         {
             using (var context = new Agilis_ReportingEntities())
             {
@@ -27,7 +27,7 @@ namespace ReportingWebForms
             }
         }
 
-        public List<DeviceInfo> GetOpenedEmailByDevice()
+        public List<DeviceInfo> GetOpenedEmailBasedOnDevice()
         {
             using (var context = new Agilis_ReportingEntities())
             {

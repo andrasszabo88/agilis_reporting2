@@ -43,8 +43,8 @@ namespace ReportingWebForms
             int campaignId;
             int.TryParse(ddlCampaigns.SelectedValue, out campaignId);
 
-            int openedEmailCount = new DbUtil().GetOpenedEmailCount(campaignId);
-            int allSentEmails = new DbUtil().GetAllSentEmails(campaignId);
+            int openedEmailCount = new DbUtil().GetOpenedEmailCountByCampaignId(campaignId);
+            int allSentEmails = new DbUtil().GetAllSentEmailsByCampaignId(campaignId);
 
             if (allSentEmails == 0)
             {
@@ -64,8 +64,8 @@ namespace ReportingWebForms
             int campaignId;
             int.TryParse(ddlCampaigns.SelectedValue, out campaignId);
 
-            int openedEmailCount = new DbUtil().GetOpenedEmailCount(campaignId);
-            var openedEmailCountByDevice = new DbUtil().GetOpenedEmailByDevice();
+            int openedEmailCount = new DbUtil().GetOpenedEmailCountByCampaignId(campaignId);
+            var openedEmailCountByDevice = new DbUtil().GetOpenedEmailBasedOnDevice();
 
             if (openedEmailCountByDevice.Count() == 0)
             { 
