@@ -50,7 +50,7 @@ namespace ReportingWebForms
 
             if (allSentEmails == 0)
             {
-                lblRatio.Text = "No emails have been sent in this campaign. Sorry :(";
+                lblRatio.Text = MessageResource.Ratio;
             }
             else
             {
@@ -73,7 +73,7 @@ namespace ReportingWebForms
             { 
                 lblEmailClickRatio.Visible = true;
                 lblRatio.Visible = true;
-                lblRatio.Text = "No emails have been sent in this campaign. Sorry :("; 
+                lblRatio.Text = MessageResource.Ratio;
             }
             else
             {

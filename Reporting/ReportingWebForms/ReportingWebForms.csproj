@@ -85,6 +85,7 @@
       <DependentUpon>ReportingDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DeviceInfo.cs" />
+    <Compile Include="MessageResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportingDataModel.Context.cs">
       <AutoGen>True</AutoGen>
