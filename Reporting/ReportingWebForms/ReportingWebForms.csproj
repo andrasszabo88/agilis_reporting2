@@ -73,6 +73,7 @@
     <Compile Include="Customer.cs">
       <DependentUpon>ReportingDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DbUtil.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
