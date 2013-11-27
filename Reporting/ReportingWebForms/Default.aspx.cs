@@ -20,19 +20,16 @@ namespace ReportingWebForms
             results.Visible = false;
             ddlCampaigns.Items.Clear();
 
-            using (var context = new Agilis_ReportingEntities())
+            var campaigns = new DbUtil().GetCampaignsByCustomerName(txtCustomerName.Text);
+
+            if (campaigns.Count() == 0) return;
+
+            foreach (var campaign in campaigns)
             {
-                var campaignsQuery = context.Campaigns.Where(p => p.Customer.name == txtCustomerName.Text);
-
-                if (campaignsQuery.Count() == 0) return;
-
-                foreach (var campaign in campaignsQuery)
-                {
-                    ddlCampaigns.Items.Add(new ListItem(campaign.name, campaign.id.ToString()));
-                }
-
-                campaignParagraph.Visible = true;
+                ddlCampaigns.Items.Add(new ListItem(campaign.name, campaign.id.ToString()));
             }
+
+            campaignParagraph.Visible = true;
         }
 
         protected void btnQueryResponse_Click(object sender, EventArgs e)
@@ -43,18 +40,14 @@ namespace ReportingWebForms
             int campaignId;
             int.TryParse(ddlCampaigns.SelectedValue, out campaignId);
 
-            using(var context = new Agilis_ReportingEntities())
+            int openedEmailCount = new DbUtil().GetOpenedEmailCount(campaignId);
+            int allSentEmails = new DbUtil().GetAllSentEmails(campaignId);
+
+            if (allSentEmails == 0) lblRatio.Text = "No emails have been sent in this campaign. Sorry :(";
+            else
             {
-                int openedEmailCount = new DbUtil().GetOpenedEmailCount(campaignId);
-
-                int allSentEmails = context.Response_Report.Count(p => p.campaign_id == campaignId);
-
-                if (allSentEmails == 0) lblRatio.Text = "No emails have been sent in this campaign. Sorry :(";
-                else
-                {
-                    double openingRatio = (double)openedEmailCount / allSentEmails * 100;
-                    lblRatio.Text = openingRatio.ToString() + "%";
-                }
+                double openingRatio = (double)openedEmailCount / allSentEmails * 100;
+                lblRatio.Text = openingRatio.ToString() + "%";
             }
         }
 
@@ -65,28 +58,24 @@ namespace ReportingWebForms
             int campaignId;
             int.TryParse(ddlCampaigns.SelectedValue, out campaignId);
 
-            using (var context = new Agilis_ReportingEntities())
+            int openedEmailCount = new DbUtil().GetOpenedEmailCount(campaignId);
+            var openedEmailCountByDevice = new DbUtil().GetOpenedEmailByDevice();
+
+            if (openedEmailCountByDevice.Count() == 0) { lblEmailClickRatio.Visible = true; lblRatio.Visible = true; lblRatio.Text = "No emails have been sent in this campaign. Sorry :("; }
+            else
             {
-                int openedEmailCount = new DbUtil().GetOpenedEmailCount(campaignId);
+                lblEmailClickRatio.Visible = false;
+                lblRatio.Visible = false;
+                tblOpenedEmailsByDevice.Visible = true;
 
-                var openedEmailCountByDevice = context.Response_Report.GroupBy(ks => ks.Device.name, (key, g) => new { name = key, count = g.Count() });
-
-                if (openedEmailCountByDevice.Count() == 0) { lblEmailClickRatio.Visible = true; lblRatio.Visible = true; lblRatio.Text = "No emails have been sent in this campaign. Sorry :("; }
-                else
+                foreach (var device in openedEmailCountByDevice)
                 {
-                    lblEmailClickRatio.Visible = false;
-                    lblRatio.Visible = false;
-                    tblOpenedEmailsByDevice.Visible = true;
+                    double openingStats = (double)device.OpenCount / openedEmailCount * 100;
+                    var row = new TableRow();
+                    row.Cells.Add(new TableCell() { Text = device.DeviceName + ":" });
+                    row.Cells.Add(new TableCell() { Text = openingStats.ToString() + "%" });
 
-                    foreach (var device in openedEmailCountByDevice)
-                    {
-                        double openingStats = (double)device.count / openedEmailCount * 100;
-                        var row = new TableRow();
-                        row.Cells.Add(new TableCell() { Text = device.name+":" });
-                        row.Cells.Add(new TableCell() { Text = openingStats.ToString() + "%" });
-
-                        tblOpenedEmailsByDevice.Rows.Add(row);
-                    }
+                    tblOpenedEmailsByDevice.Rows.Add(row);
                 }
             }
         }
