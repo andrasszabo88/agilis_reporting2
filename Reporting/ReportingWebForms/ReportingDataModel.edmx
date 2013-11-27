@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Agilis_ReportingModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="Agilis_ReportingModelStoreContainer">
+          <EntitySet Name="Campaign" EntityType="Agilis_ReportingModel.Store.Campaign" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Customer" EntityType="Agilis_ReportingModel.Store.Customer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Device" EntityType="Agilis_ReportingModel.Store.Device" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Response_Report" EntityType="Agilis_ReportingModel.Store.Response_Report" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="Agilis_ReportingModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Campaign_Customer" Association="Agilis_ReportingModel.Store.FK_Campaign_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Campaign" EntitySet="Campaign" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Response_Report_Campaign" Association="Agilis_ReportingModel.Store.FK_Response_Report_Campaign">
+            <End Role="Campaign" EntitySet="Campaign" />
+            <End Role="Response_Report" EntitySet="Response_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Response_Report_Device" Association="Agilis_ReportingModel.Store.FK_Response_Report_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="Response_Report" EntitySet="Response_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Response_Report_User" Association="Agilis_ReportingModel.Store.FK_Response_Report_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Response_Report" EntitySet="Response_Report" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Campaign">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Response_Report">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="campaign_id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="open_date" Type="datetime" />
+          <Property Name="device_id" Type="int" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="email" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Campaign_Customer">
+          <End Role="Customer" Type="Agilis_ReportingModel.Store.Customer" Multiplicity="1" />
+          <End Role="Campaign" Type="Agilis_ReportingModel.Store.Campaign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Campaign">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Response_Report_Campaign">
+          <End Role="Campaign" Type="Agilis_ReportingModel.Store.Campaign" Multiplicity="1" />
+          <End Role="Response_Report" Type="Agilis_ReportingModel.Store.Response_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaign">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Response_Report">
+              <PropertyRef Name="campaign_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Response_Report_Device">
+          <End Role="Device" Type="Agilis_ReportingModel.Store.Device" Multiplicity="0..1" />
+          <End Role="Response_Report" Type="Agilis_ReportingModel.Store.Response_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Response_Report">
+              <PropertyRef Name="device_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Response_Report_User">
+          <End Role="User" Type="Agilis_ReportingModel.Store.User" Multiplicity="1" />
+          <End Role="Response_Report" Type="Agilis_ReportingModel.Store.Response_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Response_Report">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Agilis_ReportingModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Agilis_ReportingEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Campaigns" EntityType="Agilis_ReportingModel.Campaign" />
+          <EntitySet Name="Customers" EntityType="Agilis_ReportingModel.Customer" />
+          <EntitySet Name="Response_Report" EntityType="Agilis_ReportingModel.Response_Report" />
+          <EntitySet Name="Users" EntityType="Agilis_ReportingModel.User" />
+          <AssociationSet Name="FK_Campaign_Customer" Association="Agilis_ReportingModel.FK_Campaign_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Campaign" EntitySet="Campaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Response_Report_Campaign" Association="Agilis_ReportingModel.FK_Response_Report_Campaign">
+            <End Role="Campaign" EntitySet="Campaigns" />
+            <End Role="Response_Report" EntitySet="Response_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Response_Report_User" Association="Agilis_ReportingModel.FK_Response_Report_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Response_Report" EntitySet="Response_Report" />
+          </AssociationSet>
+          <EntitySet Name="Devices" EntityType="Agilis_ReportingModel.Device" />
+          <AssociationSet Name="FK_Response_Report_Device" Association="Agilis_ReportingModel.FK_Response_Report_Device">
+            <End Role="Device" EntitySet="Devices" />
+            <End Role="Response_Report" EntitySet="Response_Report" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Campaign">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Agilis_ReportingModel.FK_Campaign_Customer" FromRole="Campaign" ToRole="Customer" />
+          <NavigationProperty Name="Response_Report" Relationship="Agilis_ReportingModel.FK_Response_Report_Campaign" FromRole="Campaign" ToRole="Response_Report" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="email" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Campaigns" Relationship="Agilis_ReportingModel.FK_Campaign_Customer" FromRole="Customer" ToRole="Campaign" />
+        </EntityType>
+        <EntityType Name="Response_Report">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="campaign_id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="open_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Campaign" Relationship="Agilis_ReportingModel.FK_Response_Report_Campaign" FromRole="Response_Report" ToRole="Campaign" />
+          <NavigationProperty Name="User" Relationship="Agilis_ReportingModel.FK_Response_Report_User" FromRole="Response_Report" ToRole="User" />
+          <Property Type="Int32" Name="device_id" />
+          <NavigationProperty Name="Device" Relationship="Agilis_ReportingModel.FK_Response_Report_Device" FromRole="Response_Report" ToRole="Device" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Response_Report" Relationship="Agilis_ReportingModel.FK_Response_Report_User" FromRole="User" ToRole="Response_Report" />
+        </EntityType>
+        <Association Name="FK_Campaign_Customer">
+          <End Role="Customer" Type="Agilis_ReportingModel.Customer" Multiplicity="1" />
+          <End Role="Campaign" Type="Agilis_ReportingModel.Campaign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Campaign">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Response_Report_Campaign">
+          <End Role="Campaign" Type="Agilis_ReportingModel.Campaign" Multiplicity="1" />
+          <End Role="Response_Report" Type="Agilis_ReportingModel.Response_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaign">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Response_Report">
+              <PropertyRef Name="campaign_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Response_Report_User">
+          <End Role="User" Type="Agilis_ReportingModel.User" Multiplicity="1" />
+          <End Role="Response_Report" Type="Agilis_ReportingModel.Response_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Response_Report">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Response_Report" Relationship="Agilis_ReportingModel.FK_Response_Report_Device" FromRole="Device" ToRole="Response_Report" />
+        </EntityType>
+        <Association Name="FK_Response_Report_Device">
+          <End Type="Agilis_ReportingModel.Device" Role="Device" Multiplicity="0..1" />
+          <End Type="Agilis_ReportingModel.Response_Report" Role="Response_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Response_Report">
+              <PropertyRef Name="device_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Agilis_ReportingModelStoreContainer" CdmEntityContainer="Agilis_ReportingEntities">
+          <EntitySetMapping Name="Campaigns">
+            <EntityTypeMapping TypeName="Agilis_ReportingModel.Campaign">
+              <MappingFragment StoreEntitySet="Campaign">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="Agilis_ReportingModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Response_Report">
+            <EntityTypeMapping TypeName="Agilis_ReportingModel.Response_Report">
+              <MappingFragment StoreEntitySet="Response_Report">
+                <ScalarProperty Name="device_id" ColumnName="device_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="campaign_id" ColumnName="campaign_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="open_date" ColumnName="open_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Agilis_ReportingModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Devices">
+            <EntityTypeMapping TypeName="Agilis_ReportingModel.Device">
+              <MappingFragment StoreEntitySet="Device">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2aecbf7e4c1440aba2dcd43700b53f1e" Name="Diagram1">
+        <EntityTypeShape EntityType="Agilis_ReportingModel.Campaign" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Agilis_ReportingModel.Customer" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Agilis_ReportingModel.Response_Report" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Agilis_ReportingModel.User" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <AssociationConnector Association="Agilis_ReportingModel.FK_Campaign_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="Agilis_ReportingModel.FK_Response_Report_Campaign" ManuallyRouted="false" />
+        <AssociationConnector Association="Agilis_ReportingModel.FK_Response_Report_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Agilis_ReportingModel.Device" Width="1.5" PointX="7.875" PointY="1.5" />
+        <AssociationConnector Association="Agilis_ReportingModel.FK_Response_Report_Device" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
