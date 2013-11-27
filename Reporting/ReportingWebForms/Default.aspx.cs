@@ -22,9 +22,7 @@ namespace ReportingWebForms
 
             using (var ctx = new Agilis_ReportingEntities())
             {
-                var query = from c in ctx.Campaigns
-                            where c.Customer.name == txtCustomerName.Text
-                            select c;
+                var query = ctx.Campaigns.Where(p => p.Customer.name == txtCustomerName.Text);
 
                 if (query.Count() == 0) return;
 
@@ -47,13 +45,9 @@ namespace ReportingWebForms
 
             using(var ctx = new Agilis_ReportingEntities())
             {
-                int opened = (from r in ctx.Response_Report
-                             where r.open_date != null && r.campaign_id == campaignId
-                             select r).Count();
+                int opened = ctx.Response_Report.Count(p => p.open_date != null && p.campaign_id == campaignId);
 
-                int all = (from r in ctx.Response_Report
-                           where r.campaign_id == campaignId
-                           select r).Count();
+                int all = ctx.Response_Report.Count(p => p.campaign_id == campaignId);
 
                 if (all == 0) lblRatio.Text = "No emails have been sent in this campaign. Sorry :(";
                 else
@@ -73,18 +67,9 @@ namespace ReportingWebForms
 
             using (var ctx = new Agilis_ReportingEntities())
             {
-                int opened = (from r in ctx.Response_Report
-                              where r.open_date != null && r.campaign_id == campaignId
-                              select r).Count();
+                int opened = ctx.Response_Report.Count(p => p.open_date != null && p.campaign_id == campaignId);
 
-                var q = from r in ctx.Response_Report
-                        where r.open_date != null && r.campaign_id == campaignId
-                        group r by r.Device.name into g
-                        select new
-                        {
-                            name = g.Key,
-                            count = g.Count()
-                        };
+                var q = ctx.Response_Report.GroupBy(ks => ks.Device.name, (key, g) => new { name = key, count = g.Count() });
 
                 if (q.Count() == 0) { Label1.Visible = true; lblRatio.Visible = true; lblRatio.Text = "No emails have been sent in this campaign. Sorry :("; }
                 else
