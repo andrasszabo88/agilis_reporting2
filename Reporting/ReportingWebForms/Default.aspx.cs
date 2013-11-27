@@ -22,7 +22,10 @@ namespace ReportingWebForms
 
             var campaigns = new DbUtil().GetCampaignsByCustomerName(txtCustomerName.Text);
 
-            if (campaigns.Count() == 0) return;
+            if (campaigns.Count() == 0)
+            {
+                return;
+            }
 
             foreach (var campaign in campaigns)
             {
@@ -43,7 +46,10 @@ namespace ReportingWebForms
             int openedEmailCount = new DbUtil().GetOpenedEmailCount(campaignId);
             int allSentEmails = new DbUtil().GetAllSentEmails(campaignId);
 
-            if (allSentEmails == 0) lblRatio.Text = "No emails have been sent in this campaign. Sorry :(";
+            if (allSentEmails == 0)
+            {
+                lblRatio.Text = "No emails have been sent in this campaign. Sorry :(";
+            }
             else
             {
                 double openingRatio = (double)openedEmailCount / allSentEmails * 100;
@@ -61,7 +67,12 @@ namespace ReportingWebForms
             int openedEmailCount = new DbUtil().GetOpenedEmailCount(campaignId);
             var openedEmailCountByDevice = new DbUtil().GetOpenedEmailByDevice();
 
-            if (openedEmailCountByDevice.Count() == 0) { lblEmailClickRatio.Visible = true; lblRatio.Visible = true; lblRatio.Text = "No emails have been sent in this campaign. Sorry :("; }
+            if (openedEmailCountByDevice.Count() == 0)
+            { 
+                lblEmailClickRatio.Visible = true;
+                lblRatio.Visible = true;
+                lblRatio.Text = "No emails have been sent in this campaign. Sorry :("; 
+            }
             else
             {
                 lblEmailClickRatio.Visible = false;
