@@ -50,7 +50,7 @@ namespace ReportingWebForms
 
             if (allSentEmails == 0)
             {
-                lblRatio.Text = MessageResource.Ratio;
+                lblRatio.Text = MessageResource.NoEmailSentMessage;
             }
             else
             {
@@ -73,7 +73,7 @@ namespace ReportingWebForms
             { 
                 lblEmailClickRatio.Visible = true;
                 lblRatio.Visible = true;
-                lblRatio.Text = MessageResource.Ratio;
+                lblRatio.Text = MessageResource.NoEmailSentMessage;
             }
             else
             {

@@ -7,7 +7,7 @@ namespace ReportingWebForms
 {
     public static class MessageResource
     {
-        public static string Ratio
+        public static string NoEmailSentMessage
         {
             get { return "No emails have been sent in this campaign. Sorry :("; }
         }
