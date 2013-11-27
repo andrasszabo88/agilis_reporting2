@@ -45,7 +45,7 @@ namespace ReportingWebForms
 
             using(var context = new Agilis_ReportingEntities())
             {
-                int openedEmailCount = context.Response_Report.Count(p => p.open_date != null && p.campaign_id == campaignId);
+                int openedEmailCount = GetOpenedEmailCount(campaignId);
 
                 int allSentEmails = context.Response_Report.Count(p => p.campaign_id == campaignId);
 
@@ -67,7 +67,7 @@ namespace ReportingWebForms
 
             using (var context = new Agilis_ReportingEntities())
             {
-                int openedEmailCount = context.Response_Report.Count(p => p.open_date != null && p.campaign_id == campaignId);
+                int openedEmailCount = GetOpenedEmailCount(campaignId);
 
                 var openedEmailCountByDevice = context.Response_Report.GroupBy(ks => ks.Device.name, (key, g) => new { name = key, count = g.Count() });
 
@@ -88,6 +88,16 @@ namespace ReportingWebForms
                         tblOpenedEmailsByDevice.Rows.Add(row);
                     }
                 }
+            }
+        }
+
+        private int GetOpenedEmailCount(int campaignId)
+        {
+            using (var context = new Agilis_ReportingEntities())
+            {
+                int openedEmailCount = context.Response_Report.Count(p => p.open_date != null && p.campaign_id == campaignId);
+
+                return openedEmailCount;
             }
         }
     }
