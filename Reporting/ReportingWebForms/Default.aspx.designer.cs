@@ -85,13 +85,13 @@ namespace ReportingWebForms {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl results;
         
         /// <summary>
-        /// Label1 control.
+        /// lblEmailClickRatio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label lblEmailClickRatio;
         
         /// <summary>
         /// lblRatio control.
@@ -103,12 +103,12 @@ namespace ReportingWebForms {
         protected global::System.Web.UI.WebControls.Label lblRatio;
         
         /// <summary>
-        /// Table1 control.
+        /// tblOpenedEmailsByDevice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table Table1;
+        protected global::System.Web.UI.WebControls.Table tblOpenedEmailsByDevice;
     }
 }

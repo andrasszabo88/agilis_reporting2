@@ -21,9 +21,9 @@
         </p>
     </div>
     <div id="results" runat="server">
-        <asp:Label ID="Label1" runat="server" Text="Opened/all email clicks ratio: " visible="false" />
+        <asp:Label ID="lblEmailClickRatio" runat="server" Text="Opened/all email clicks ratio: " visible="false" />
         <asp:Label ID="lblRatio" runat="server" Visible="false" />
-        <asp:Table ID="Table1" runat="server" Visible="false" />
+        <asp:Table ID="tblOpenedEmailsByDevice" runat="server" Visible="false" />
     </div>
         
     </form>

@@ -20,15 +20,15 @@ namespace ReportingWebForms
             results.Visible = false;
             ddlCampaigns.Items.Clear();
 
-            using (var ctx = new Agilis_ReportingEntities())
+            using (var context = new Agilis_ReportingEntities())
             {
-                var query = ctx.Campaigns.Where(p => p.Customer.name == txtCustomerName.Text);
+                var campaignsQuery = context.Campaigns.Where(p => p.Customer.name == txtCustomerName.Text);
 
-                if (query.Count() == 0) return;
+                if (campaignsQuery.Count() == 0) return;
 
-                foreach (var item in query)
+                foreach (var campaign in campaignsQuery)
                 {
-                    ddlCampaigns.Items.Add(new ListItem(item.name, item.id.ToString()));
+                    ddlCampaigns.Items.Add(new ListItem(campaign.name, campaign.id.ToString()));
                 }
 
                 campaignParagraph.Visible = true;
@@ -38,54 +38,54 @@ namespace ReportingWebForms
         protected void btnQueryResponse_Click(object sender, EventArgs e)
         {
             results.Visible = true;
-            Label1.Visible = true;
+            lblEmailClickRatio.Visible = true;
             lblRatio.Visible = true;
             int campaignId;
             int.TryParse(ddlCampaigns.SelectedValue, out campaignId);
 
-            using(var ctx = new Agilis_ReportingEntities())
+            using(var context = new Agilis_ReportingEntities())
             {
-                int opened = ctx.Response_Report.Count(p => p.open_date != null && p.campaign_id == campaignId);
+                int openedEmailCount = context.Response_Report.Count(p => p.open_date != null && p.campaign_id == campaignId);
 
-                int all = ctx.Response_Report.Count(p => p.campaign_id == campaignId);
+                int allSentEmails = context.Response_Report.Count(p => p.campaign_id == campaignId);
 
-                if (all == 0) lblRatio.Text = "No emails have been sent in this campaign. Sorry :(";
+                if (allSentEmails == 0) lblRatio.Text = "No emails have been sent in this campaign. Sorry :(";
                 else
                 {
-                    double openingStats = (double)opened / all * 100;
-                    lblRatio.Text = openingStats.ToString() + "%";
+                    double openingRatio = (double)openedEmailCount / allSentEmails * 100;
+                    lblRatio.Text = openingRatio.ToString() + "%";
                 }
             }
         }
 
         protected void btnQueryAdvanced_Click(object sender, EventArgs e)
         {
-            Table1.Rows.Clear();
+            tblOpenedEmailsByDevice.Rows.Clear();
             results.Visible = true;
             int campaignId;
             int.TryParse(ddlCampaigns.SelectedValue, out campaignId);
 
-            using (var ctx = new Agilis_ReportingEntities())
+            using (var context = new Agilis_ReportingEntities())
             {
-                int opened = ctx.Response_Report.Count(p => p.open_date != null && p.campaign_id == campaignId);
+                int openedEmailCount = context.Response_Report.Count(p => p.open_date != null && p.campaign_id == campaignId);
 
-                var q = ctx.Response_Report.GroupBy(ks => ks.Device.name, (key, g) => new { name = key, count = g.Count() });
+                var openedEmailCountByDevice = context.Response_Report.GroupBy(ks => ks.Device.name, (key, g) => new { name = key, count = g.Count() });
 
-                if (q.Count() == 0) { Label1.Visible = true; lblRatio.Visible = true; lblRatio.Text = "No emails have been sent in this campaign. Sorry :("; }
+                if (openedEmailCountByDevice.Count() == 0) { lblEmailClickRatio.Visible = true; lblRatio.Visible = true; lblRatio.Text = "No emails have been sent in this campaign. Sorry :("; }
                 else
                 {
-                    Label1.Visible = false;
+                    lblEmailClickRatio.Visible = false;
                     lblRatio.Visible = false;
-                    Table1.Visible = true;
+                    tblOpenedEmailsByDevice.Visible = true;
 
-                    foreach (var device in q)
+                    foreach (var device in openedEmailCountByDevice)
                     {
-                        double openingStats = (double)device.count / opened * 100;
-                        TableRow r = new TableRow();
-                        r.Cells.Add(new TableCell() { Text = device.name+":" });
-                        r.Cells.Add(new TableCell() { Text = openingStats.ToString() + "%" });
+                        double openingStats = (double)device.count / openedEmailCount * 100;
+                        var row = new TableRow();
+                        row.Cells.Add(new TableCell() { Text = device.name+":" });
+                        row.Cells.Add(new TableCell() { Text = openingStats.ToString() + "%" });
 
-                        Table1.Rows.Add(r);
+                        tblOpenedEmailsByDevice.Rows.Add(row);
                     }
                 }
             }
